@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Question</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: bold;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 1.5s ease; /* fade-out transition */
+    }
+
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255,255,255,0.3);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(6px);
+      animation: popUp 2s ease forwards;
+      color: #4a0e0e;
+      z-index: 2;
+    }
+
+    @keyframes popUp {
+      from {transform: scale(0.8); opacity: 0;}
+      to {transform: scale(1); opacity: 1;}
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ff6f61, 0 0 20px #ffe066;
+      animation: bounceIn 1s ease forwards;
+    }
+    @keyframes bounceIn {
+      0% {transform: scale(0.3); opacity: 0;}
+      50% {transform: scale(1.2); opacity: 1;}
+      100% {transform: scale(1); opacity: 1;}
+    }
+
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: #ff6f61;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #ffe066;
+    }
+
+    #noBtn {
+      position: absolute;
+      transition: all 0.4s ease;
+    }
+
+    @keyframes fall {
+      from {transform: translateY(-50px); opacity: 1;}
+      to {transform: translateY(50px); opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💖 Do you love me more than chocolates? 🍫💖</h2>
+    <!-- ✅ Button now triggers confetti + fade-out + redirect -->
+    <button onclick="celebrate()">Of course 😘</button>
+    <button id="noBtn">No 🍫</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+
+    // Smooth dodge when hovered
+    noBtn.addEventListener("mouseover", () => {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      const x = Math.floor(Math.random() * maxX);
+      const y = Math.floor(Math.random() * maxY);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    });
+
+    // Start at random position
+    (function initPosition() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      noBtn.style.left = Math.floor(Math.random() * maxX) + "px";
+      noBtn.style.top = Math.floor(Math.random() * maxY) + "px";
+    })();
+
+    // Confetti burst + fade-out + redirect
+    function celebrate() {
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.innerText = ["💖","🎉","✨","😘"][Math.floor(Math.random()*4)];
+        confetti.style.position = "absolute";
+        confetti.style.left = Math.random()*window.innerWidth + "px";
+        confetti.style.top = Math.random()*window.innerHeight + "px";
+        confetti.style.fontSize = "24px";
+        confetti.style.animation = "fall 2s linear forwards";
+        document.body.appendChild(confetti);
+        setTimeout(()=>confetti.remove(),2000);
+      }
+
+      // Fade-out effect
+      document.body.style.opacity = "0";
+
+      // Redirect after fade
+      setTimeout(()=>window.location.href='surprise.html', 1500);
+    }
+  </script>
+</body>
+</html>
